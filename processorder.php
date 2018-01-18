@@ -43,11 +43,19 @@ else {
     echo htmlspecialchars($sparkqty) . ' spark plug(s) ($' . SPARKPRICE . ' each)<br />';
     echo '<p>Total items: ' . $totalqty . '</p>';
     echo '<p>Subtotal: $' . number_format($subtotal, 2) . '</p>';
+
     $taxRate = TAXRATE * 100;
     echo "<p>Total (plus $taxRate% tax): $" . number_format($grandtotal, 2) . '</p>';
+
     if ($discount) {
         echo "Congrats! You qualified for a $discount% cash-back!";
     }
+
+    $fp = fopen("../BobStoreOrderArchive/orders.txt", "x");
+    if (!$fp) {
+        echo 'Unable to open file.<br/>';
+    }
+
     echo "<p>Order processed at " . date("H:i, jS F Y") . "</p>";
 }
 ?>
