@@ -12,13 +12,15 @@ define('OILPRICE', 10);
 define('SPARKPRICE', 4);
 define('TAXRATE', 0.1);
 
-$tireqty = $_POST['tireqty'] ?: 0;
-$oilqty = $_POST['oilqty'] ?: 0;
-$sparkqty = $_POST['sparkqty'] ?: 0;
+$documentRoot = $_SERVER['DOCUMENT_ROOT'];
+$tireqty = (int) $_POST['tireqty'] ?: 0;
+$oilqty = (int) $_POST['oilqty'] ?: 0;
+$sparkqty = (int) $_POST['sparkqty'] ?: 0;
 $totalqty = $oilqty + $sparkqty + $tireqty;
 $subtotal = $oilqty*OILPRICE + $tireqty*TIREPRICE + $sparkqty*SPARKPRICE;
 $grandtotal = $subtotal * (1 + TAXRATE);
 $address = $_POST['address'];
+$date = date("H:i, jS F Y");
 
 if (!$totalqty) {
     echo '<p style="color: red">';
@@ -51,12 +53,17 @@ else {
         echo "Congrats! You qualified for a $discount% cash-back!";
     }
 
-    $fp = fopen("../BobStoreOrderArchive/orders.txt", "x");
+    $fp = fopen("$documentRoot/BobStoreOrderArchive/orders.txt", "ab");
     if (!$fp) {
-        echo 'Unable to open file.<br/>';
+        echo '<p><strong>Unable to open file. Order could not be processed.</strong></p>';
+        exit;
     }
 
-    echo "<p>Order processed at " . date("H:i, jS F Y") . "</p>";
+    $outputString = "$date\ttires: $tireqty\toil: $oilqty\tspark plugs: $sparkqty\ttotal: $grandtotal\taddress: $address\n";
+    fwrite($fp, $outputString);
+    fclose($fp);
+
+    echo "<p>Order processed at " . $date . "</p>";
 }
 ?>
 </body>
