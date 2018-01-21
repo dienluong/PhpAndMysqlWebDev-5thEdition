@@ -59,8 +59,10 @@ else {
         exit;
     }
 
+    flock($fp, LOCK_EX);
     $outputString = "$date\ttires: $tireqty\toil: $oilqty\tspark plugs: $sparkqty\ttotal: $grandtotal\taddress: $address\n";
-    fwrite($fp, $outputString);
+    fwrite($fp, $outputString, strlen($outputString));
+    flock($fp, LOCK_UN);
     fclose($fp);
 
     echo "<p>Order processed at " . $date . "</p>";
