@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bob's Auto Parts - Customer Feedback</title>
+    <style>
+        input[type="text"] {
+            min-width: 180px;
+        }
+
+    </style>
+</head>
+<body>
+<h1>Customer Feedback</h1>
+<p>Please us what you think.</p>
+<form action="processfeedback.php" method="post">
+    <div>
+        <strong><label for="yourName">Your name</label></strong><br/>
+        <input type="text" id="yourName" name="yourName">
+    </div>
+    <div>
+        <strong><label for="yourEmail">Your email address</label><br/></strong>
+        <input type="text" id="yourEmail" name="yourEmail">
+    </div>
+    <div>
+        <strong><label for="yourFeedback">Your feedback</label><br/></strong>
+        <textarea name="yourFeedback" id="yourFeedback" cols="30" rows="10"></textarea>
+    </div>
+    <button>Submit</button>
+</form>
+</body>
+</html>
