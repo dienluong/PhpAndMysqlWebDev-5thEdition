@@ -6,15 +6,22 @@
  * Time: 17:26
  */
 
-$name = $_POST['yourName'] ?: NULL;
-$email = $_POST['yourEmail'] ?: NULL;
-$feedback = $_POST['yourFeedback'] ?: NULL;
-$toAddress = "dysonlu0@gmail.com";
-$fromHeader = "From: mamp@example.com";
+$name = trim($_POST['yourName']) ?: NULL;
+$email = trim($_POST['yourEmail']) ?: NULL;
+$feedback = trim($_POST['yourFeedback']) ?: NULL;
 $sent = FALSE;
 if (isset($name, $email, $feedback)) {
+    $fromHeader = "From: mamp@example.com";
+    $toAddress = "dysonlu0@gmail.com";
     $emailSubject = "Feedback from $email";
-    $emailContent = str_replace("\r\n", "","Customer: $name\nEmail: $email\nComment: \"$feedback\"\n");
+    // remove \r\n for security reasons.
+    $emailContent = str_replace("\r\n", "","Customer: \"$name\"\nEmail: \"$email\"\nComment: \"$feedback\"\n");
+    if ($email) {
+        $emailExploded = explode('@', $email);
+        if ($emailExploded[1] === 'bigcustomer.com') {
+            $emailSubject = "IMPORTANT: Feedback from $email";
+        }
+    }
     if (mail($toAddress, $emailSubject, $emailContent, $fromHeader)) {
         $sent = TRUE;
     }
