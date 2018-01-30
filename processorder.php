@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Bob's Auto Parts - Order Results</title>
-</head>
-<body>
+<?php
+require 'header.php';
+?>
 <h1>Bob's Auto Parts</h1>
 <h2>Order Results</h2>
 <?php
@@ -21,6 +18,16 @@ $subtotal = $oilqty*OILPRICE + $tireqty*TIREPRICE + $sparkqty*SPARKPRICE;
 $grandtotal = $subtotal * (1 + TAXRATE);
 $address = $_POST['address'];
 $date = date("H:i, jS F Y");
+
+function handlingWarning($errno, $errstr) {
+    if ($errno === E_WARNING) {
+        echo "WARNING: $errstr.";
+        return true;
+    }
+    else {
+        return false;
+    }
+}
 
 if (!$totalqty) {
     echo '<p style="color: red">';
@@ -53,6 +60,7 @@ else {
         echo "Congrats! You qualified for a $discount% cash-back!";
     }
 
+    set_error_handler("handlingWarning");
     $fp = fopen("$documentRoot/BobStoreOrderArchive/orders.txt", "ab");
     if (!$fp) {
         echo '<p><strong>Unable to open file. Order could not be processed.</strong></p>';
@@ -68,5 +76,6 @@ else {
     echo "<p>Order processed at " . $date . "</p>";
 }
 ?>
-</body>
-</html>
+<?php
+require 'footer.php';
+?>
