@@ -53,7 +53,7 @@ class Page
         foreach ($buttons as $name => $url) {
             $this->displayButton($name, $url, !$this->isURLCurrentPage($url));
         }
-        echo '</nav>\n';
+        echo "</nav>\n";
     }
 
     public function displayButton($name, $url, $active=TRUE) {
@@ -98,3 +98,4 @@ class Page
         <?php
     }
 }
+
