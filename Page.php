@@ -39,7 +39,7 @@ class Page
     }
 
     public function displayKeywords() {
-        echo "<meta name='keywords' content='$this->keywords'/>"
+        echo "<meta name='keywords' content='$this->keywords'/>";
     }
 
     public function displayStyles() {
